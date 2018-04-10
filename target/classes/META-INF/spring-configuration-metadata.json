@@ -1,0 +1,11 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.recnav.app.config.ApplicationProperties",
+      "name": "",
+      "type": "com.recnav.app.config.ApplicationProperties"
+    }
+  ],
+  "properties": []
+}
