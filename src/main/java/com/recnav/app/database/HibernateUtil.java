@@ -19,6 +19,9 @@ public class HibernateUtil {
                     .addAnnotatedClass(AuthData.class)
                     .addAnnotatedClass(Articles.class)
                     .addAnnotatedClass(ArticleCategories.class)
+                    .addAnnotatedClass(UserTypes.class)
+                    .addAnnotatedClass(Users.class)
+                    .addAnnotatedClass(UserClicks.class)
                     .buildSessionFactory();
         }
         catch (Throwable ex) {

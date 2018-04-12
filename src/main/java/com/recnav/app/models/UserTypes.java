@@ -1,18 +1,28 @@
 package com.recnav.app.models;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Column;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity(name = "user_types")
 @AttributeOverrides({
         @AttributeOverride( name="created", column = @Column(name="created_at") ),
         @AttributeOverride( name="updated", column = @Column(name="updated_at") )
 })
 public class UserTypes extends BaseModels{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "type_name")
     private String type;
+
+    @OneToMany(
+            targetEntity = Users.class,
+            mappedBy = "userType",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private Set<Users> users = new HashSet<Users>(0);
 
     public String getType() {

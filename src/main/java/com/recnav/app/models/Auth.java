@@ -38,7 +38,8 @@ public class Auth {
     public AuthData getCurrentUser() {
 
         AuthData authData = null;
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
         Transaction transaction = session.beginTransaction();
 
         try {
@@ -50,6 +51,12 @@ public class Auth {
 
         } catch (Exception e) {
             transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            if(session!=null){
+                session.close();
+            }
+
         }
 
         return authData;

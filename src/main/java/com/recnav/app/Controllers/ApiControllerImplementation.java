@@ -3,7 +3,7 @@ package com.recnav.app.Controllers;
 
 import com.recnav.app.ResponseModels.Response;
 import com.recnav.app.database.HibernateUtil;
-import com.recnav.app.modelController.ArticleCategoriesModelController;
+import com.recnav.app.modelController.*;
 import com.recnav.app.models.*;
 import com.recnav.app.routes.ApiController;
 import org.hibernate.Session;
@@ -33,6 +33,7 @@ public class ApiControllerImplementation implements ApiController {
         app.setUrl("test");
         session.persist(app);
         transaction.commit();
+
         this.response.setType(Response.SUCCESS);
         this.response.setCode(Response.ALL_GOOD);
         this.response.setMessageKey("message");
@@ -50,13 +51,84 @@ public class ApiControllerImplementation implements ApiController {
             try{
                 String categoryName = item.getCategory().getName();
                 ArticleCategoriesModelController articleController = new ArticleCategoriesModelController();
-                articleController.findOrAdd(item.getCategory(),categoryName);
+                ArticleCategories articleCategories = articleController.findOrAdd(item.getCategory(), categoryName);
                 articleController.commitTransaction();
+
+                AuthData auth = Auth.getInstance().getCurrentUser();
+
+                ArticleModelController article = new ArticleModelController();
+                item.setCategory(articleCategories);
+                item.setApp(auth.getApp());
+                article.insertArticle(item);
+                article.commitTransaction();
+
+                this.response.setType(Response.SUCCESS);
+                this.response.setCode(Response.ALL_GOOD);
+                this.response.setMessageKey("message");
+                this.response.setMessageText("New Articles has been imported");
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
-        return null;
+        return this.response;
+    }
+
+
+    @Override
+    public Response registerUser(@RequestBody Users users) {
+
+
+        AuthData auth = Auth.getInstance().getCurrentUser();
+
+        UserModelController userModelController = new UserModelController(users);
+        users.setApp(auth.getApp());
+
+        System.out.println("asdasdasdasd"+users.getCountry());
+
+        userModelController.save();
+        userModelController.commitTransaction();
+
+        this.response.setType(Response.SUCCESS);
+        this.response.setCode(Response.ALL_GOOD);
+        this.response.setMessageKey("message");
+        this.response.setMessageText("New User has been registered");
+
+        return response;
+    }
+
+    @Override
+    public Response recordClick(@RequestBody UserClickModelController users) {
+
+        ArticleModelController articleModelController= new ArticleModelController();
+        Articles articles = articleModelController.find(users.getArticleId());
+        articleModelController.commitTransaction();
+
+        UserModelController userModelController = new UserModelController();
+        Users users1 = userModelController.find(users.getUserKey());
+        if(users1 != null){
+            userModelController.commitTransaction();
+
+            UserClicks userClicks = new UserClicks();
+            userClicks.setArticle(articles);
+            userClicks.setUser(users1);
+
+            users = new UserClickModelController(userClicks);
+            users.save();
+            users.commitTransaction();
+
+            this.response.setType(Response.SUCCESS);
+            this.response.setCode(Response.ALL_GOOD);
+            this.response.setMessageKey("message");
+            this.response.setMessageText("Registered click action");
+
+        } else {
+            this.response.setType(Response.ERROR);
+            this.response.setCode(Response.USER_DO_NOT_EXIST);
+            this.response.setMessageKey("message");
+            this.response.setMessageText("Please register user");
+        }
+
+        return response;
     }
 
 

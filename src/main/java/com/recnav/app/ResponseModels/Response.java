@@ -9,8 +9,7 @@ public class Response {
     public static String ALL_GOOD = "200";
     public static String AUTH_FAIL = "403";
     public static String TOKEN_NOT_VALID = "404";
-    public static String VALIDATION_ERROR = "405";
-    public static String TOKEN_EXPIRED = "406";
+    public static String USER_DO_NOT_EXIST = "101";
 
     public static  String ERROR = "error";
     public static  String SUCCESS = "success";

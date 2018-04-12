@@ -12,6 +12,7 @@ public class ModelObserver extends EmptyInterceptor {
 
     @Override
     public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+        System.out.println("Hello wold");
         return this.updateStates(entity, propertyNames, state, "created");
     }
 
@@ -23,15 +24,15 @@ public class ModelObserver extends EmptyInterceptor {
 
 
     private boolean updateStates(Object entity, String[] propertyNames, Object[] state, String currentProperty){
-        if(entity instanceof Apps) {
+
             for ( int i=0; i<propertyNames.length; i++ ) {
                 if ( currentProperty.equals( propertyNames[i] ) ) {
                     state[i] = new Date();
                     return true;
                 }
             }
-            return true;
-        }
-        return false;
+            return false;
+
+
     }
 }

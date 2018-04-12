@@ -1,23 +1,47 @@
 package com.recnav.app.models;
 
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Column;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+
+@Entity(name = "users")
+
 @AttributeOverrides({
         @AttributeOverride( name="created", column = @Column(name="created_at") ),
         @AttributeOverride( name="updated", column = @Column(name="updated_at") )
 })
 public class Users extends BaseModels {
 
-    private String lastName;
-    private String firstName;
-    private String country;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "surname")
+    private String lastName;
+
+    @Column(name = "name")
+    private String firstName;
+
+    private String country;
+
+    @ManyToOne
+    @JoinColumn(name = "user_type_id" , nullable = false)
     private UserTypes userType;
+
+    @ManyToOne
+    @JoinColumn(name = "app_id" , nullable = false)
     private Apps app;
+
+    @Column(name = "user_key")
+    private String userKey;
+
+    @OneToMany(
+            targetEntity = UserClicks.class,
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private Set<UserClicks> clicks = new HashSet<UserClicks>(0);
 
 
@@ -76,4 +100,14 @@ public class Users extends BaseModels {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public String getUserKey() {
+        return userKey;
+    }
+
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
+    }
+
+
 }

@@ -1,18 +1,25 @@
 package com.recnav.app.models;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Column;
+import javax.persistence.*;
 
+@Entity(name = "user_clicks")
 @AttributeOverrides({
         @AttributeOverride( name="created", column = @Column(name="created_at") ),
         @AttributeOverride( name="updated", column = @Column(name="updated_at") )
 })
 public class UserClicks extends BaseModels{
 
-    private Articles article;
-    private Users user;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "article_id" , nullable = false)
+    private Articles article;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id" , nullable = false)
+    private Users user;
 
     public int getId() {
         return id;

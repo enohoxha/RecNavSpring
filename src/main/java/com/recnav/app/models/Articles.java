@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "articles")
 @AttributeOverrides({
         @AttributeOverride( name="created", column = @Column(name="created_at") ),
         @AttributeOverride( name="updated", column = @Column(name="updated_at") )
@@ -27,13 +28,13 @@ public class Articles extends BaseModels{
     @JoinColumn(name = "app_id" , nullable = false)
     private Apps app;
 
-    /*@OneToMany(
+    @OneToMany(
             targetEntity = UserClicks.class,
             mappedBy = "article",
             cascade = CascadeType.ALL,
             orphanRemoval = true
-    )*//*
-    private Set<UserClicks> clicks = new HashSet<UserClicks>(0);*/
+    )
+    private Set<UserClicks> clicks = new HashSet<UserClicks>(0);
 
     public Articles() {
 

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 public interface AuthController {
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/auth/login", method = RequestMethod.POST)
     public Response login(@RequestParam("appName") String appName, @RequestParam("secretKey") String secretKey);
 
 }
