@@ -7,12 +7,15 @@ import org.hibernate.Transaction;
 
 public class UserTypeModelController extends UserTypes{
 
-    static Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-    static Transaction transaction = session.getTransaction();
+    private Session session;
+    private Transaction transaction;
 
+    public UserTypeModelController() {
+        session  = HibernateUtil.getSessionFactory().getCurrentSession();
+        transaction = session.getTransaction();
+    }
 
-
-    public static UserTypes get(Integer id){
+    public UserTypes get(Integer id){
         return session.get(UserTypes.class, id);
     }
 

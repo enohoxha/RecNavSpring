@@ -34,7 +34,13 @@ public class Articles extends BaseModels{
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+
+
     private Set<UserClicks> clicks = new HashSet<UserClicks>(0);
+    @Column(name = "location")
+    private String location;
+
+
 
     public Articles() {
 
@@ -87,4 +93,11 @@ public class Articles extends BaseModels{
         this.category = category;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 }

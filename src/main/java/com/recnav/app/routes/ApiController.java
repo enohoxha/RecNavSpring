@@ -31,7 +31,7 @@ public interface ApiController {
 
     @RequestMapping(method = RequestMethod.POST,
             value = "/registerUser" , produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response registerUser(Users users);
+    public Response registerUser(List <Users> items);
 
 
     @RequestMapping(method = RequestMethod.POST,

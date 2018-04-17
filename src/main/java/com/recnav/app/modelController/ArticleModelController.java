@@ -29,7 +29,6 @@ public class ArticleModelController{
     public void commitTransaction(){
 
         transaction.commit();
-        session.close();
     }
 
     public Articles find(Integer id){

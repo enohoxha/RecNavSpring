@@ -51,6 +51,5 @@ public class ArticleCategoriesModelController {
 
     public void commitTransaction(){
         transaction.commit();
-        session.close();
     }
 }

@@ -27,18 +27,22 @@ public class UserModelController{
 
     }
 
+    public void setUser(Users user){
+        this.users = user;
+    }
 
     public void save(){
-        System.out.println("fdfdfdfdfdfdddf"+users.getUserType().getType());
-        UserTypes userTypes = UserTypeModelController.get(users.getUserType().getId());
+        UserTypeModelController userTypeModelController = new UserTypeModelController();
+        UserTypes userTypes = userTypeModelController.get(users.getUserType().getId());
+
         users.setUserType(userTypes);
         session.save(users);
+
     }
 
 
     public void commitTransaction(){
         transaction.commit();
-        session.close();
     }
 
     public Integer getUserTypeId() {

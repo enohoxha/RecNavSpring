@@ -27,7 +27,7 @@ public class AuthControllerImplementation implements AuthController{
 
     @Override
     public Response login(String appName, String secretKey) {
-        Session session= HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session= HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         String compactJws = "Login Failed";
         calendar.add(Calendar.SECOND, ApplicationProperties.EXPIRATION_TIME);

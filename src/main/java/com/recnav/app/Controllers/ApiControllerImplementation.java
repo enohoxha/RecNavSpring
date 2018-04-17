@@ -58,6 +58,7 @@ public class ApiControllerImplementation implements ApiController {
 
                 ArticleModelController article = new ArticleModelController();
                 item.setCategory(articleCategories);
+
                 item.setApp(auth.getApp());
                 article.insertArticle(item);
                 article.commitTransaction();
@@ -75,18 +76,21 @@ public class ApiControllerImplementation implements ApiController {
 
 
     @Override
-    public Response registerUser(@RequestBody Users users) {
+    public Response registerUser(@RequestBody List<Users> items) {
 
 
         AuthData auth = Auth.getInstance().getCurrentUser();
+        UserModelController userModelController = new UserModelController();
+        items.forEach(users->{
+            if(userModelController.find(users.getUserKey()) == null){
+                userModelController.setUser(users);
+                users.setApp(auth.getApp());
+                userModelController.save();
+            }
 
-        UserModelController userModelController = new UserModelController(users);
-        users.setApp(auth.getApp());
-
-        System.out.println("asdasdasdasd"+users.getCountry());
-
-        userModelController.save();
+        });
         userModelController.commitTransaction();
+
 
         this.response.setType(Response.SUCCESS);
         this.response.setCode(Response.ALL_GOOD);
