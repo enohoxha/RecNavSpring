@@ -2,11 +2,13 @@ package com.recnav.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 
 @SpringBootApplication
 
-public class Application{
+public class Application extends SpringBootServletInitializer {
     private static Class<Application> applicationClass = Application.class;
 
     public static void main(String[] args) {
@@ -14,9 +16,9 @@ public class Application{
         SpringApplication.run(applicationClass, args);
     }
 
-   /* @Override
+    @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(applicationClass);
-    }*/
+    }
 
 }

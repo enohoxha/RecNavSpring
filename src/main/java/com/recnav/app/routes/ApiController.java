@@ -19,23 +19,23 @@ import java.util.Map;
 public interface ApiController {
 
     @RequestMapping(method = RequestMethod.POST,
-            value = "/newApp",  produces = MediaType.APPLICATION_JSON_VALUE )
+            value = "/api/newApp",  produces = MediaType.APPLICATION_JSON_VALUE )
     public Response addNewApp();
 
 
     @RequestMapping(method = RequestMethod.POST,
-            value = "/addArticlesGroup" , produces = MediaType.APPLICATION_JSON_VALUE)
+            value = "/api/addArticlesGroup" , produces = MediaType.APPLICATION_JSON_VALUE)
     public Response addArticles(List<Articles> items);
 
 
 
     @RequestMapping(method = RequestMethod.POST,
-            value = "/registerUser" , produces = MediaType.APPLICATION_JSON_VALUE)
+            value = "/api/registerUser" , produces = MediaType.APPLICATION_JSON_VALUE)
     public Response registerUser(List <Users> items);
 
 
     @RequestMapping(method = RequestMethod.POST,
-            value = "/recordClick" , produces = MediaType.APPLICATION_JSON_VALUE)
+            value = "/api/recordClick" , produces = MediaType.APPLICATION_JSON_VALUE)
     public Response recordClick(UserClickModelController users);
 
 

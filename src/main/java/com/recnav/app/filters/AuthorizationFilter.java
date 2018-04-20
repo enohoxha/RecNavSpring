@@ -26,7 +26,7 @@ public class AuthorizationFilter implements HandlerInterceptor {
 
         try {
             String compactJws = req.getHeader("token");
-
+            System.out.println("hello " + compactJws);
             int userId = Integer.parseInt(
                     Jwts.parser().setSigningKey(ApplicationProperties.key).parseClaimsJws(compactJws).getBody().getSubject()
             );

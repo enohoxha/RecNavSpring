@@ -14,8 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(getSessionManager())
-                .addPathPatterns("/**")
-                .excludePathPatterns("/auth/**");
+                .addPathPatterns("/api/**");
         // assuming you put your serve your static files with /resources/ mapping
         // and the pre login page is served with /login mapping
     }
