@@ -2,9 +2,11 @@ package com.recnav.app.modelController;
 
 import com.recnav.app.database.HibernateUtil;
 import com.recnav.app.models.Articles;
+import com.recnav.app.models.Users;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 public class ArticleModelController{
@@ -32,7 +34,16 @@ public class ArticleModelController{
     }
 
     public Articles find(Integer id){
-        return session.get(Articles.class, id);
+        Articles articles;
+        try{
+            articles = (Articles) session.createQuery("from Articles where articleId = :key")
+                    .setParameter("key", id)
+                    .getSingleResult();
+
+        } catch (NoResultException e){
+            articles = null;
+        }
+        return articles;
     }
 
 

@@ -103,37 +103,43 @@ public class ApiControllerImplementation implements ApiController {
     @Override
     public Response recordClick(@RequestBody UserClickModelController users) {
 
-        ArticleModelController articleModelController= new ArticleModelController();
-        Articles articles = articleModelController.find(users.getArticleId());
-        articleModelController.commitTransaction();
+        try{
+            ArticleModelController articleModelController= new ArticleModelController();
+            Articles articles = articleModelController.find(users.getArticleId());
+            articleModelController.commitTransaction();
 
-        UserModelController userModelController = new UserModelController();
-        Users users1 = userModelController.find(users.getUserKey());
-        if(users1 != null){
-            userModelController.commitTransaction();
 
-            UserClicks userClicks = new UserClicks();
-            userClicks.setArticle(articles);
-            userClicks.setUser(users1);
+            UserModelController userModelController = new UserModelController();
+            Users users1 = userModelController.find(users.getUserKey());
 
-            users = new UserClickModelController(userClicks);
-            users.save();
-            users.commitTransaction();
+            if(users1 != null){
+                userModelController.commitTransaction();
 
-            this.response.setType(Response.SUCCESS);
-            this.response.setCode(Response.ALL_GOOD);
-            this.response.setMessageKey("message");
-            this.response.setMessageText("Registered click action");
+                UserClicks userClicks = new UserClicks();
+                userClicks.setArticle(articles);
+                userClicks.setUser(users1);
 
-        } else {
-            this.response.setType(Response.ERROR);
-            this.response.setCode(Response.USER_DO_NOT_EXIST);
-            this.response.setMessageKey("message");
-            this.response.setMessageText("Please register user");
+                users = new UserClickModelController(userClicks);
+                users.save();
+                users.commitTransaction();
+
+                this.response.setType(Response.SUCCESS);
+                this.response.setCode(Response.ALL_GOOD);
+                this.response.setMessageKey("message");
+                this.response.setMessageText("Registered click action");
+
+            } else {
+                this.response.setType(Response.ERROR);
+                this.response.setCode(Response.USER_DO_NOT_EXIST);
+                this.response.setMessageKey("message");
+                this.response.setMessageText("Please register user");
+            }
+
+            return response;
+
+        } catch (Exception e){
+            e.printStackTrace();
         }
-
         return response;
     }
-
-
 }

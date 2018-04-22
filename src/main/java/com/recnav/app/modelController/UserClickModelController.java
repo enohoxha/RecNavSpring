@@ -13,8 +13,8 @@ public class UserClickModelController {
     Transaction transaction;
     UserClicks userClicks;
 
-    private String userKey;
-    private int articleId;
+    public String userKey;
+    public int articleId;
 
     public UserClickModelController() {
     }
