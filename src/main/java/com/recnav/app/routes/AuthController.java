@@ -4,7 +4,9 @@ import com.recnav.app.ResponseModels.Response;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 public interface AuthController {
 
     @RequestMapping(value = "/auth/login", method = RequestMethod.POST)

@@ -3,14 +3,19 @@ package com.recnav.app.Controllers;
 
 import com.recnav.app.ResponseModels.Response;
 import com.recnav.app.database.HibernateUtil;
-import com.recnav.app.modelController.*;
 import com.recnav.app.models.*;
+import com.recnav.app.models.RequestModels.UserClickRequest;
+import com.recnav.app.models.Services.ArticlesService;
+import com.recnav.app.models.Services.UserClicksService;
+import com.recnav.app.models.Services.UsersServices;
 import com.recnav.app.routes.ApiController;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -19,6 +24,18 @@ import java.util.List;
 public class ApiControllerImplementation implements ApiController {
     private Response response;
 
+
+    @Autowired
+    private UsersServices usersServices;
+
+    @Autowired
+    private Auth authData;
+
+    @Autowired
+    private UserClicksService userClicksService;
+
+    @Autowired
+    private ArticlesService articlesService;
 
     public ApiControllerImplementation() {
         response = new Response();
@@ -45,23 +62,22 @@ public class ApiControllerImplementation implements ApiController {
 
     }
 
+/*
     @Override
     public Response addArticles(@RequestBody List <Articles>items) {
         items.forEach(item->{
             try{
                 String categoryName = item.getCategory().getName();
-                ArticleCategoriesModelController articleController = new ArticleCategoriesModelController();
+                ArticleCategoriesDaoImp articleController = new ArticleCategoriesDaoImp();
                 ArticleCategories articleCategories = articleController.findOrAdd(item.getCategory(), categoryName);
-                articleController.commitTransaction();
 
                 AuthData auth = Auth.getInstance().getCurrentUser();
 
-                ArticleModelController article = new ArticleModelController();
+                ArticleDaoImp article = new ArticleDaoImp();
                 item.setCategory(articleCategories);
 
                 item.setApp(auth.getApp());
                 article.insertArticle(item);
-                article.commitTransaction();
 
                 this.response.setType(Response.SUCCESS);
                 this.response.setCode(Response.ALL_GOOD);
@@ -73,55 +89,67 @@ public class ApiControllerImplementation implements ApiController {
         });
         return this.response;
     }
+*/
 
 
     @Override
     public Response registerUser(@RequestBody List<Users> items) {
 
 
-        AuthData auth = Auth.getInstance().getCurrentUser();
-        UserModelController userModelController = new UserModelController();
+        AuthData auth = authData.getCurrentUser();
+
+
+
         items.forEach(users->{
-            if(userModelController.find(users.getUserKey()) == null){
-                userModelController.setUser(users);
-                users.setApp(auth.getApp());
-                userModelController.save();
+
+            Users user = usersServices.getUserByKey(users.getUserKey());
+
+            if(user == null){
+
+                Users u = new Users();
+                u.setCountry(users.getCountry());
+                u.setFirstName(users.getFirstName());
+                u.setLastName(users.getLastName());
+                u.setUserKey(users.getUserKey());
+                u.setApp(auth.getApp());
+                u.setUserType(users.getUserType());
+                usersServices.addUsers(u);
+
+
+                this.response.setType(Response.SUCCESS);
+                this.response.setCode(Response.ALL_GOOD);
+                this.response.setMessageKey("message");
+                this.response.setMessageText("New User has been registered");
+            } else{
+
+                this.response.setType(Response.SUCCESS);
+                this.response.setCode(Response.ALL_GOOD);
+                this.response.setMessageKey("message");
+                this.response.setMessageText("User Exist on our servers");
             }
 
         });
-        userModelController.commitTransaction();
-
-
-        this.response.setType(Response.SUCCESS);
-        this.response.setCode(Response.ALL_GOOD);
-        this.response.setMessageKey("message");
-        this.response.setMessageText("New User has been registered");
 
         return response;
     }
 
     @Override
-    public Response recordClick(@RequestBody UserClickModelController users) {
+
+    public Response recordClick(@RequestBody UserClickRequest users) {
+
 
         try{
-            ArticleModelController articleModelController= new ArticleModelController();
-            Articles articles = articleModelController.find(users.getArticleId());
-            articleModelController.commitTransaction();
+            Articles articles = articlesService.getArticleById(users.getArticleId());
 
 
-            UserModelController userModelController = new UserModelController();
-            Users users1 = userModelController.find(users.getUserKey());
+            Users users1 = usersServices.getUserByKey(users.getUserKey());
 
-            if(users1 != null){
-                userModelController.commitTransaction();
+            if(users1 != null && articles != null){
 
                 UserClicks userClicks = new UserClicks();
                 userClicks.setArticle(articles);
                 userClicks.setUser(users1);
-
-                users = new UserClickModelController(userClicks);
-                users.save();
-                users.commitTransaction();
+                userClicksService.addUserClick(userClicks);
 
                 this.response.setType(Response.SUCCESS);
                 this.response.setCode(Response.ALL_GOOD);
