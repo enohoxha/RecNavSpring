@@ -1,5 +1,6 @@
 package com.recnav.app.models.Services;
 
+import com.recnav.app.models.ArticleCategories;
 import com.recnav.app.models.Articles;
 
 public interface ArticlesService {

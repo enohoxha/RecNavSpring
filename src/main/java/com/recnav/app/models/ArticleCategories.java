@@ -1,5 +1,7 @@
 package com.recnav.app.models;
 
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +16,9 @@ public class ArticleCategories extends BaseModels {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column
+    @NaturalId
     private String name;
 
     @OneToMany(

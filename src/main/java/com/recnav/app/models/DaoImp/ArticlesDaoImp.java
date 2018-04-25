@@ -22,9 +22,10 @@ public class ArticlesDaoImp implements ArticlesDao {
         return articles;
     }
 
+
     @Override
     public void saveArticle(Articles articles) {
         Session session = sessionFactory.getCurrentSession();
-        session.save(articles);
+        session.persist(articles);
     }
 }

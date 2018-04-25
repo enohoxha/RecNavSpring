@@ -1,5 +1,6 @@
 package com.recnav.app.models.ServicesImp;
 
+import com.recnav.app.models.ArticleCategories;
 import com.recnav.app.models.Articles;
 import com.recnav.app.models.Dao.ArticlesDao;
 import com.recnav.app.models.Services.ArticlesService;
@@ -25,5 +26,6 @@ public class ArticlesServiceImp implements ArticlesService {
     public void saveArticle(Articles articles) {
         articlesDao.saveArticle(articles);
     }
+
 
 }

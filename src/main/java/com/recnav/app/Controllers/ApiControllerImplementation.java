@@ -6,6 +6,7 @@ import com.recnav.app.database.HibernateUtil;
 import com.recnav.app.models.*;
 import com.recnav.app.models.RequestModels.UserClickRequest;
 import com.recnav.app.models.Services.ArticlesService;
+import com.recnav.app.models.Services.CategoryService;
 import com.recnav.app.models.Services.UserClicksService;
 import com.recnav.app.models.Services.UsersServices;
 import com.recnav.app.routes.ApiController;
@@ -37,6 +38,10 @@ public class ApiControllerImplementation implements ApiController {
     @Autowired
     private ArticlesService articlesService;
 
+    @Autowired
+    private CategoryService categoryService;
+
+
     public ApiControllerImplementation() {
         response = new Response();
     }
@@ -62,22 +67,21 @@ public class ApiControllerImplementation implements ApiController {
 
     }
 
-/*
     @Override
     public Response addArticles(@RequestBody List <Articles>items) {
         items.forEach(item->{
             try{
                 String categoryName = item.getCategory().getName();
-                ArticleCategoriesDaoImp articleController = new ArticleCategoriesDaoImp();
-                ArticleCategories articleCategories = articleController.findOrAdd(item.getCategory(), categoryName);
 
-                AuthData auth = Auth.getInstance().getCurrentUser();
+                ArticleCategories articleCategories = categoryService.findOrAdd(item.getCategory(), categoryName);
 
-                ArticleDaoImp article = new ArticleDaoImp();
+                AuthData auth = this.authData.getCurrentUser();
+
+
                 item.setCategory(articleCategories);
-
                 item.setApp(auth.getApp());
-                article.insertArticle(item);
+
+                this.articlesService.saveArticle(item);
 
                 this.response.setType(Response.SUCCESS);
                 this.response.setCode(Response.ALL_GOOD);
@@ -89,7 +93,6 @@ public class ApiControllerImplementation implements ApiController {
         });
         return this.response;
     }
-*/
 
 
     @Override

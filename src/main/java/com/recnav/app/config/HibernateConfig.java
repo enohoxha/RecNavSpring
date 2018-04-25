@@ -30,7 +30,7 @@ public class HibernateConfig {
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/recnav?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/recnav?useLegacyDatetimeCode=false&serverTimezone=Europe/Amsterdam");
         dataSource.setUsername("root");
         dataSource.setPassword("26Eno264");
 
