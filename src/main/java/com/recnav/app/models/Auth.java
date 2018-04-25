@@ -1,10 +1,17 @@
 package com.recnav.app.models;
 
-import com.recnav.app.database.HibernateUtil;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+
+@Component
 public class Auth {
+
+    @Autowired
+    private SessionFactory sessionFactory;
 
     private static Auth instance = null;
 
@@ -26,37 +33,26 @@ public class Auth {
         this.userId = userId;
     }
 
-
-    public static Auth getInstance() {
-        if (instance == null) {
-            instance = new Auth();
-            System.out.println("Creating new instance");
-        }
-        return instance;
-    }
-
+    @Transactional
     public AuthData getCurrentUser() {
 
         AuthData authData = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = null;
+        try{
 
-        Transaction transaction = session.beginTransaction();
-
+            session = sessionFactory.getCurrentSession();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        System.out.println();
         try {
 
             authData = (AuthData) session.createQuery("from AuthData where id = :i")
                     .setParameter("i", this.getUserId())
                     .getSingleResult();
-            transaction.commit();
 
         } catch (Exception e) {
-            transaction.rollback();
             e.printStackTrace();
-        } finally {
-            if(session!=null){
-                session.close();
-            }
-
         }
 
         return authData;

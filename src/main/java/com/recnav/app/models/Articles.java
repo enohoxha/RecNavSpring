@@ -1,5 +1,7 @@
 package com.recnav.app.models;
 
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +18,7 @@ public class Articles extends BaseModels{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NaturalId
     @Column(name = "article_id")
     private int articleId;
 
@@ -34,7 +37,13 @@ public class Articles extends BaseModels{
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+
+
     private Set<UserClicks> clicks = new HashSet<UserClicks>(0);
+    @Column(name = "location")
+    private String location;
+
+
 
     public Articles() {
 
@@ -87,4 +96,11 @@ public class Articles extends BaseModels{
         this.category = category;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 }

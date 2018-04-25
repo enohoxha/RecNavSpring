@@ -1,6 +1,8 @@
 package com.recnav.app.models;
 
 
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,6 +35,7 @@ public class Users extends BaseModels {
     @JoinColumn(name = "app_id" , nullable = false)
     private Apps app;
 
+    @NaturalId
     @Column(name = "user_key")
     private String userKey;
 

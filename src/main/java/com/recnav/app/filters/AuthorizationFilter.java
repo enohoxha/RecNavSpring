@@ -7,6 +7,7 @@ import com.recnav.app.models.Auth;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.ServletException;
@@ -18,20 +19,23 @@ import java.io.IOException;
 public class AuthorizationFilter implements HandlerInterceptor {
 
     private Response response;
+    @Autowired
+    Auth auth;
 
     @Override
     public boolean preHandle(HttpServletRequest req,
                           HttpServletResponse res, Object handler) throws IOException, ServletException {
 
 
+
         try {
             String compactJws = req.getHeader("token");
-
+            System.out.println("hello " + compactJws);
             int userId = Integer.parseInt(
                     Jwts.parser().setSigningKey(ApplicationProperties.key).parseClaimsJws(compactJws).getBody().getSubject()
             );
 
-            Auth.getInstance().setUserId(userId);
+            auth.setUserId(userId);
             return true;
 
             //OK, we can trust this JWT

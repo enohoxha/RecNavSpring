@@ -1,26 +1,37 @@
 package com.recnav.app.models;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @MappedSuperclass
 public class BaseModels {
 
     @Column(name = "created")
-    private Date created;
+    @CreationTimestamp
+    private LocalDateTime created;
 
     @Column(name = "updated", nullable = false)
-    private Date updated;
+    @UpdateTimestamp
+    private LocalDateTime updated;
 
-    @PrePersist
-    protected void onCreate() {
-        updated = created = new Date();
+    public LocalDateTime getCreated() {
+        return created;
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        updated = new Date();
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 
+    public LocalDateTime getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(LocalDateTime updated) {
+        this.updated = updated;
+    }
 }

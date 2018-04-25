@@ -8,13 +8,19 @@ import com.recnav.app.routes.AuthController;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
 import java.util.Calendar;
 
 @RestController
 public class AuthControllerImplementation implements AuthController{
+
+    @Autowired
+    private SessionFactory sessionFactory;
 
     private Response response;
     Calendar calendar = Calendar.getInstance(); // gets a calendar using the default time zone and locale.
@@ -24,11 +30,10 @@ public class AuthControllerImplementation implements AuthController{
 
         response = new Response();
     }
-
+    @Transactional
     @Override
     public Response login(String appName, String secretKey) {
-        Session session= HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction transaction = session.beginTransaction();
+        Session session= sessionFactory.getCurrentSession();
         String compactJws = "Login Failed";
         calendar.add(Calendar.SECOND, ApplicationProperties.EXPIRATION_TIME);
 
@@ -47,7 +52,7 @@ public class AuthControllerImplementation implements AuthController{
                         .signWith(SignatureAlgorithm.HS512, ApplicationProperties.key)
                         .compact();
             }
-            transaction.commit();
+
 
             this.response.setType(Response.SUCCESS);
             this.response.setCode(Response.ALL_GOOD);
@@ -56,7 +61,7 @@ public class AuthControllerImplementation implements AuthController{
 
 
         } catch (Exception e) {
-            transaction.rollback();
+
             this.response.setType(Response.ERROR);
             this.response.setCode(Response.AUTH_FAIL);
             this.response.setMessageKey("message");
