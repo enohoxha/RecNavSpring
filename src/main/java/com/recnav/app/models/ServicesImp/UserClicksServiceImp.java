@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 
 public class UserClicksServiceImp implements UserClicksService {
+
     @Autowired
     UserClicksDao userClicksDao;
 
@@ -26,5 +27,10 @@ public class UserClicksServiceImp implements UserClicksService {
     @Override
     public List<UserClicks> getUserClicks() {
         return userClicksDao.getUserClicks();
+    }
+
+    @Override
+    public List<UserClicks> getUserClicksDateRange(String start, String end) {
+        return userClicksDao.getUserClicksDateRange(start, end);
     }
 }

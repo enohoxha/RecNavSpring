@@ -10,4 +10,6 @@ public interface UserClicksService {
 
     public List<UserClicks> getUserClicks();
 
+    List<UserClicks> getUserClicksDateRange(String start, String end);
+
 }

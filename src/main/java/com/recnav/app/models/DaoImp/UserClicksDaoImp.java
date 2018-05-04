@@ -28,4 +28,14 @@ public class UserClicksDaoImp implements UserClicksDao{
         List<UserClicks> userClicks = session.createQuery("from UserClicks").list();
         return userClicks;
     }
+
+    @Override
+    public List<UserClicks> getUserClicksDateRange(String start, String end) {
+        Session session = sessionFactory.getCurrentSession();
+
+        List<UserClicks> userClicks= session.createQuery("from UserClicks where created BETWEEN :start AND  :end")
+        .setParameter("start", start)
+        .setParameter("end", end).list();
+        return userClicks;
+    }
 }

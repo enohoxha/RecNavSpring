@@ -10,4 +10,6 @@ public interface UserClicksDao {
 
     public List<UserClicks> getUserClicks();
 
+    public List<UserClicks> getUserClicksDateRange(String start, String end);
+
 }
