@@ -23,7 +23,16 @@ public class UserDistributionDaoImp implements UserDistributionDao {
     @Override
     public UserDistribution save(UserDistribution ud) {
         Session session = sessionFactory.getCurrentSession();
-        session.persist(ud);
+        session.saveOrUpdate(ud);
         return ud;
+    }
+
+    @Override
+    public UserDistribution getLastInsertedItem() {
+        Session session = sessionFactory.getCurrentSession();
+        List results = session.createQuery("FROM UserDistribution  ORDER BY created DESC").list();
+        if(results.isEmpty())
+            return null;
+        return (UserDistribution) results.get(0);
     }
 }

@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -34,7 +35,10 @@ public class UserDaoImp implements UsersDao{
 
     @Override
     public Users getUsersById(int id) {
-        return null;
+        Session s = sessionFactory.getCurrentSession();
+        Users u = (Users) s.createQuery("from Users where id = :id")
+                .setParameter("id", id).getSingleResult();
+        return u;
     }
 
     @Override
@@ -48,6 +52,14 @@ public class UserDaoImp implements UsersDao{
         Users users = session.byNaturalId(Users.class)
                 .using("userKey", key)
                 .load();
+        return users;
+    }
+
+    @Override
+    public ArrayList<Users> getAllUsers() {
+        Session session = sessionFactory.getCurrentSession();
+        ArrayList<Users> users = (ArrayList<Users>) session.createQuery("from Users")
+                .list();
         return users;
     }
 }

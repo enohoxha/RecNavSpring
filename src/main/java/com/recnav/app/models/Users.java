@@ -7,7 +7,8 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name = "users")
+@Entity
+@Table(name = "users")
 
 @AttributeOverrides({
         @AttributeOverride( name="created", column = @Column(name="created_at") ),

@@ -3,6 +3,8 @@ package com.recnav.app.models.Services;
 import com.recnav.app.models.CountryDistribution;
 import com.recnav.app.models.UserClicks;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.List;
 
 public interface CountryDistributionService {
@@ -19,7 +21,13 @@ public interface CountryDistributionService {
 
     public CountryDistribution getCountryDistributionByKey(String key);
 
-    public void calculateCountryDistribution(List<UserClicks> userClicks);
+    public void calculateClicksPerLocation(List<UserClicks> userClicks);
+
+    public void calculateDistributions(List<UserClicks> userClicks);
 
     String getLastInsertedItemDate();
+
+    void cleanValues();
+
+    void saveDistributions(Date start, Date end, String type);
 }

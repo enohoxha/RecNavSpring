@@ -3,10 +3,12 @@ package com.recnav.app.models.ServicesImp;
 import com.recnav.app.models.Dao.UsersDao;
 import com.recnav.app.models.Services.UsersServices;
 import com.recnav.app.models.Users;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,6 +32,7 @@ public class UsersServiceImp implements UsersServices {
         return personDAO.listUserss();
     }
 
+    @Transactional
     @Override
     public Users getUsersById(int id) {
         return personDAO.getUsersById(id);
@@ -44,5 +47,12 @@ public class UsersServiceImp implements UsersServices {
     @Override
     public Users getUserByKey(String key) {
         return personDAO.getUsersByKey(key);
+    }
+
+    @Transactional
+    @Override
+    public ArrayList getUsers() {
+        ArrayList<Users> users = personDAO.getAllUsers();
+        return users;
     }
 }

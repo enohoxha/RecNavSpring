@@ -2,6 +2,7 @@ package com.recnav.app.models.Dao;
 
 import com.recnav.app.models.Users;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface UsersDao {
@@ -19,4 +20,5 @@ public interface UsersDao {
     public Users getUsersByKey(String key);
 
 
+    ArrayList<Users> getAllUsers();
 }

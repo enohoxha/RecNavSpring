@@ -10,4 +10,5 @@ public interface UserDistributionDao {
 
     public UserDistribution save(UserDistribution ud);
 
+    UserDistribution getLastInsertedItem();
 }

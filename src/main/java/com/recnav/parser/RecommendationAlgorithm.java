@@ -16,10 +16,9 @@ public class RecommendationAlgorithm {
 
     @Scheduled(cron = "* * * * * *")
     public void reportCurrentTime() throws ParseException {
-
+        System.out.println("******************Starting Calculating distributions****************");
         AlgorithmAdapter adapter = new AlgorithmAdapter(contentBasedAlgorithm);
         adapter.startProcess();
-
 
     }
 

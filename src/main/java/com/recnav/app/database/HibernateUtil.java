@@ -20,6 +20,7 @@ public class HibernateUtil {
                     .addAnnotatedClass(Articles.class)
                     .addAnnotatedClass(ArticleCategories.class)
                     .addAnnotatedClass(UserTypes.class)
+                    .addAnnotatedClass(CountryDistribution.class)
                     .addAnnotatedClass(Users.class)
                     .addAnnotatedClass(UserClicks.class)
                     .buildSessionFactory();

@@ -2,14 +2,13 @@ package com.recnav.app.models;
 
 import javax.persistence.*;
 
-
 @Entity
-@Table(name = "user_clicks")
+@Table(name = "country_distribution")
 @AttributeOverrides({
         @AttributeOverride( name="created", column = @Column(name="created_at") ),
         @AttributeOverride( name="updated", column = @Column(name="updated_at") )
 })
-public class UserClicks extends BaseModels{
+public class RecNavContentBased extends BaseModels {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +19,12 @@ public class UserClicks extends BaseModels{
     private Articles article;
 
     @ManyToOne
-    @JoinColumn(name = "user_id" , nullable = false)
-    private Users user;
+    @JoinColumn(name = "category_id" , nullable = false)
+    private ArticleCategories category;
+
+    @Column(name = "rec_coefficient")
+    private double coefficient;
+
 
     public int getId() {
         return id;
@@ -29,14 +32,6 @@ public class UserClicks extends BaseModels{
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Users getUser() {
-        return user;
-    }
-
-    public void setUser(Users user) {
-        this.user = user;
     }
 
     public Articles getArticle() {
@@ -47,18 +42,19 @@ public class UserClicks extends BaseModels{
         this.article = article;
     }
 
-    public boolean isSameRegion(UserClicks userClicks){
-
-        if(this.user.getCountry().equals(userClicks.getUser().getCountry())){
-            return true;
-        }
-        return false;
+    public ArticleCategories getCategory() {
+        return category;
     }
 
-    public boolean isSameCategory(UserClicks userClicks){
-        if(this.article.getCategory().getName().equals(userClicks.getArticle().getCategory().getName() )){
-            return  true;
-        }
-        return false;
+    public void setCategory(ArticleCategories category) {
+        this.category = category;
+    }
+
+    public double getCoefficient() {
+        return coefficient;
+    }
+
+    public void setCoefficient(double coefficient) {
+        this.coefficient = coefficient;
     }
 }

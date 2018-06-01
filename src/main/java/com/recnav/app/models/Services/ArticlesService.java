@@ -3,6 +3,8 @@ package com.recnav.app.models.Services;
 import com.recnav.app.models.ArticleCategories;
 import com.recnav.app.models.Articles;
 
+import java.util.ArrayList;
+
 public interface ArticlesService {
 
 
@@ -10,4 +12,5 @@ public interface ArticlesService {
 
     public void saveArticle(Articles articles);
 
+    ArrayList<Articles> getArticles();
 }

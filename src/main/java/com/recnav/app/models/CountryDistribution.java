@@ -1,8 +1,10 @@
 package com.recnav.app.models;
 
 import javax.persistence.*;
+import java.util.Date;
 
-@Entity(name = "country_distribution")
+@Entity
+@Table(name = "country_distribution")
 @AttributeOverrides({
         @AttributeOverride( name="created", column = @Column(name="created_at") ),
         @AttributeOverride( name="updated", column = @Column(name="updated_at") )
@@ -23,7 +25,26 @@ public class CountryDistribution extends BaseModels{
     private int click;
 
     @Column
-    private int distribution;
+    private double distribution;
+
+    @Column
+    private String type;
+
+    @Column
+    private Date from_date;
+
+    @Column
+    private Date too_date;
+
+    public CountryDistribution(String country, ArticleCategories category, int click) {
+        this.country = country;
+        this.category = category;
+        this.click = click;
+    }
+
+    public CountryDistribution() {
+
+    }
 
     public int getId() {
         return id;
@@ -57,11 +78,41 @@ public class CountryDistribution extends BaseModels{
         this.click = click;
     }
 
-    public int getDistribution() {
+    public double getDistribution() {
         return distribution;
     }
 
-    public void setDistribution(int distribution) {
+    public void setDistribution(double distribution) {
         this.distribution = distribution;
     }
+
+    public void addClick(){
+        this.click += 1;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Date getFrom() {
+        return from_date;
+    }
+
+    public void setFrom(Date from) {
+        this.from_date = from;
+    }
+
+    public Date getToo() {
+        return too_date;
+    }
+
+    public void setToo(Date too) {
+        this.too_date = too;
+    }
+
+
 }

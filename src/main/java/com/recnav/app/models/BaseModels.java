@@ -13,25 +13,25 @@ public class BaseModels {
 
     @Column(name = "created")
     @CreationTimestamp
-    private LocalDateTime created;
+    private Date created;
 
     @Column(name = "updated", nullable = false)
     @UpdateTimestamp
-    private LocalDateTime updated;
+    private Date updated;
 
-    public LocalDateTime getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDateTime created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
-    public LocalDateTime getUpdated() {
+    public Date getUpdated() {
         return updated;
     }
 
-    public void setUpdated(LocalDateTime updated) {
+    public void setUpdated(Date updated) {
         this.updated = updated;
     }
 }

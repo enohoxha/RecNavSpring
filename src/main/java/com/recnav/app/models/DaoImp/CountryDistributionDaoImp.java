@@ -20,7 +20,7 @@ public class CountryDistributionDaoImp implements CountryDistributionDao {
     @Override
     public void addCountryDistribution(CountryDistribution p) {
         Session session = sessionFactory.getCurrentSession();
-        session.persist(p);
+        session.saveOrUpdate(p);
     }
 
     @Override
@@ -52,7 +52,8 @@ public class CountryDistributionDaoImp implements CountryDistributionDao {
     public CountryDistribution getLastItem() {
         Session session = sessionFactory.getCurrentSession();
         List results = session.createQuery("FROM CountryDistribution  ORDER BY created DESC").list();
-        System.out.println("asdasdasdad");
+        if(results.isEmpty())
+            return null;
         return (CountryDistribution) results.get(0);
     }
 }
