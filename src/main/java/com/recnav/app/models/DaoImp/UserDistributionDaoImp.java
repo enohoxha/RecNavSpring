@@ -23,7 +23,7 @@ public class UserDistributionDaoImp implements UserDistributionDao {
     @Override
     public UserDistribution save(UserDistribution ud) {
         Session session = sessionFactory.getCurrentSession();
-        session.saveOrUpdate(ud);
+        session.save(ud);
         return ud;
     }
 

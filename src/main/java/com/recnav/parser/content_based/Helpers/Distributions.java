@@ -36,15 +36,16 @@ public class Distributions {
 
     public void calculateLongTimeDistribution() throws ParseException {
 
-
+        System.out.println("\n Calculateing long time distribution");
         this.calculateDistributions(LONG_TIME_DISTRIBUTION);
         this.calculateDistributions(LONG_TIME_USER_DISTRIBUTION);
+        System.out.println("\n Done Calculateing long time distribution");
 
     }
 
 
     public void calculateShortTimeDistribution(){
-
+        System.out.println("\n Calculateing short time distribution");
         Calendar cal = Calendar.getInstance();
         Date too = cal.getTime();
         cal.add(Calendar.HOUR, -shortTimePeriod);
@@ -53,6 +54,7 @@ public class Distributions {
         List<UserClicks> userClicks = userClicksService.getUserClicksDateRange(from, too);
         countryDistributionService.calculateDistributions(userClicks);
         countryDistributionService.saveDistributions(from, too, SHORT_TIME_DISTRIBUTION);
+        System.out.println("\n done Calculateing short time distribution");
     }
 
     private void calculateDistributions(String type) throws ParseException {
@@ -70,7 +72,6 @@ public class Distributions {
         } else{
             startString = "2018-02-24 12:27:59";
         }
-        System.out.println(startString+" "+type);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate = formatter.parse(startString);
         Date endDate = formatter.parse(formatter.format(new Date()));
@@ -85,24 +86,31 @@ public class Distributions {
         start.setTime(startDate);
         Calendar end = Calendar.getInstance();
         end.setTime(endDate);
-
+        int clickDebug = 0;
         for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, timePeriod), date = start.getTime()) {
 
             // Do your job here with `date`.
             frame.setTime(date);
             frame.add(Calendar.DATE, timePeriod);
             List<UserClicks> userClicks = userClicksService.getUserClicksDateRange(date, frame.getTime());
-
+            clickDebug += userClicks.size();
+            System.out.println("Calculate " + type + " between days: " + date + " - " + frame.getTime());
             if (type == LONG_TIME_USER_DISTRIBUTION){
-                userDistributionService.calculateDistributions(userClicks);
-                userDistributionService.saveDistributions(startDate, endDate, type);
+                if(userClicks.size() > 0) {
+                    userDistributionService.calculateDistributions(userClicks);
+                    userDistributionService.saveDistributions(date, frame.getTime(), type);
+                }
             } else{
 
-                countryDistributionService.calculateDistributions(userClicks);
-                countryDistributionService.saveDistributions(startDate, endDate, type);
+                if(userClicks.size() > 0){
+                    countryDistributionService.calculateDistributions(userClicks);
+                    countryDistributionService.saveDistributions(date, frame.getTime(), type);
+                }
             }
 
         }
-        System.out.println("done");
+
+        System.out.println("Click debug for " + type + ": " + clickDebug);
+
     }
 }

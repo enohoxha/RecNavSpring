@@ -20,7 +20,7 @@ public class CountryDistributionDaoImp implements CountryDistributionDao {
     @Override
     public void addCountryDistribution(CountryDistribution p) {
         Session session = sessionFactory.getCurrentSession();
-        session.saveOrUpdate(p);
+        session.save(p);
     }
 
     @Override

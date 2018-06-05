@@ -72,7 +72,6 @@ public class CountryDistributionServiceImp implements CountryDistributionService
     @Override
 
     public void calculateDistributions(List<UserClicks> userClicks){
-        int counter = 1;
         for (int i = 0; i < userClicks.size(); i++) {
             String bucketKey = userClicks.get(i).getUser().getCountry() + userClicks.get(i).getArticle().getCategory().getName();
             if(!countryDistributions.containsKey(bucketKey)){
