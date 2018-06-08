@@ -118,4 +118,16 @@ public class CountryDistributionServiceImp implements CountryDistributionService
         }
     }
 
+    @Override
+    @Transactional
+    public List get(HashMap values, String type) {
+        return countryDistributionDao.get(values, type);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllShort() {
+        countryDistributionDao.deleteAll("short_time");
+    }
+
 }

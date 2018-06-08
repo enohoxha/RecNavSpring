@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -20,7 +21,11 @@ public class CountryDistributionDaoImp implements CountryDistributionDao {
     @Override
     public void addCountryDistribution(CountryDistribution p) {
         Session session = sessionFactory.getCurrentSession();
-        session.save(p);
+        if(p.getType() == "short_time"){
+            session.saveOrUpdate(p);
+        } else {
+            session.save(p);
+        }
     }
 
     @Override
@@ -55,5 +60,28 @@ public class CountryDistributionDaoImp implements CountryDistributionDao {
         if(results.isEmpty())
             return null;
         return (CountryDistribution) results.get(0);
+    }
+
+    @Override
+    public List get(HashMap values, String type) {
+
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "from CountryDistribution where ";
+        for (Object value : values.keySet()) {
+            hql += value + " = '" + values.get(value) +"'";
+            hql += " and ";
+        }
+        hql = hql.substring(0, hql.length() - 4);
+        List results = session.createQuery( hql).list();
+        if(results.isEmpty())
+            return null;
+        return results;
+
+    }
+
+    @Override
+    public void deleteAll(String type) {
+        Session session = sessionFactory.getCurrentSession();
+        session.createQuery("delete CountryDistribution where type = '" + type + "'").executeUpdate();
     }
 }

@@ -117,4 +117,10 @@ public class UserDistributionServiceImp implements UserDistributionService{
         }
         return null;
     }
+
+    @Override
+    @Transactional
+    public List<UserDistribution> get(HashMap values, String type) {
+        return userDistributionDao.get(values, type);
+    }
 }

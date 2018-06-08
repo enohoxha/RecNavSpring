@@ -5,6 +5,7 @@ import com.recnav.app.models.UserClicks;
 
 import javax.xml.crypto.Data;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public interface CountryDistributionService {
@@ -30,4 +31,8 @@ public interface CountryDistributionService {
     void cleanValues();
 
     void saveDistributions(Date start, Date end, String type);
+
+    public List get(HashMap values, String type);
+
+    void deleteAllShort();
 }

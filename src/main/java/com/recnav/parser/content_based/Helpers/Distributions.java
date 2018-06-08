@@ -37,6 +37,7 @@ public class Distributions {
     public void calculateLongTimeDistribution() throws ParseException {
 
         System.out.println("\n Calculateing long time distribution");
+        countryDistributionService.deleteAllShort();
         this.calculateDistributions(LONG_TIME_DISTRIBUTION);
         this.calculateDistributions(LONG_TIME_USER_DISTRIBUTION);
         System.out.println("\n Done Calculateing long time distribution");
@@ -46,13 +47,16 @@ public class Distributions {
 
     public void calculateShortTimeDistribution(){
         System.out.println("\n Calculateing short time distribution");
+
         Calendar cal = Calendar.getInstance();
         Date too = cal.getTime();
         cal.add(Calendar.HOUR, -shortTimePeriod);
         Date from = cal.getTime();
 
         List<UserClicks> userClicks = userClicksService.getUserClicksDateRange(from, too);
+
         countryDistributionService.calculateDistributions(userClicks);
+
         countryDistributionService.saveDistributions(from, too, SHORT_TIME_DISTRIBUTION);
         System.out.println("\n done Calculateing short time distribution");
     }

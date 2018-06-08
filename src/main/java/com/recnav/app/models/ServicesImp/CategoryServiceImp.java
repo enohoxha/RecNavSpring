@@ -3,9 +3,12 @@ package com.recnav.app.models.ServicesImp;
 import com.recnav.app.models.ArticleCategories;
 import com.recnav.app.models.Dao.CategoriesDao;
 import com.recnav.app.models.Services.CategoryService;
+import com.recnav.app.models.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 
 @Service
 public class CategoryServiceImp implements CategoryService{
@@ -23,6 +26,13 @@ public class CategoryServiceImp implements CategoryService{
     @Transactional
     public ArticleCategories addCategory(ArticleCategories articleCategories) {
         return categoriesDao.addCategory(articleCategories);
+    }
+
+    @Override
+    @Transactional
+    public ArrayList<ArticleCategories> getAll() {
+        ArrayList<ArticleCategories> categories = categoriesDao.getAllCategories();
+        return categories;
     }
 
     @Override

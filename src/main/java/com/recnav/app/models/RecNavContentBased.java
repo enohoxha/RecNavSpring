@@ -3,7 +3,7 @@ package com.recnav.app.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "country_distribution")
+@Table(name = "rec_nav_content_based")
 @AttributeOverrides({
         @AttributeOverride( name="created", column = @Column(name="created_at") ),
         @AttributeOverride( name="updated", column = @Column(name="updated_at") )
@@ -15,8 +15,8 @@ public class RecNavContentBased extends BaseModels {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "article_id" , nullable = false)
-    private Articles article;
+    @JoinColumn(name = "user_id" , nullable = false)
+    private Users users;
 
     @ManyToOne
     @JoinColumn(name = "category_id" , nullable = false)
@@ -24,7 +24,6 @@ public class RecNavContentBased extends BaseModels {
 
     @Column(name = "rec_coefficient")
     private double coefficient;
-
 
     public int getId() {
         return id;
@@ -34,12 +33,12 @@ public class RecNavContentBased extends BaseModels {
         this.id = id;
     }
 
-    public Articles getArticle() {
-        return article;
+    public Users getUsers() {
+        return users;
     }
 
-    public void setArticle(Articles article) {
-        this.article = article;
+    public void setUsers(Users users) {
+        this.users = users;
     }
 
     public ArticleCategories getCategory() {

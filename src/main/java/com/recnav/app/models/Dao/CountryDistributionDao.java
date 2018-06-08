@@ -3,6 +3,7 @@ package com.recnav.app.models.Dao;
 import com.recnav.app.models.CountryDistribution;
 import com.recnav.app.models.Users;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface CountryDistributionDao {
@@ -20,4 +21,8 @@ public interface CountryDistributionDao {
     public CountryDistribution getCountryDistributionByKey(String key);
 
     CountryDistribution getLastItem();
+
+    public List get(HashMap values, String type);
+
+    void deleteAll(String type);
 }

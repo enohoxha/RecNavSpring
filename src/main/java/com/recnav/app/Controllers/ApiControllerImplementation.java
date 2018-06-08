@@ -1,14 +1,12 @@
 package com.recnav.app.Controllers;
 
 
+import com.google.gson.Gson;
 import com.recnav.app.ResponseModels.Response;
 import com.recnav.app.database.HibernateUtil;
 import com.recnav.app.models.*;
 import com.recnav.app.models.RequestModels.UserClickRequest;
-import com.recnav.app.models.Services.ArticlesService;
-import com.recnav.app.models.Services.CategoryService;
-import com.recnav.app.models.Services.UserClicksService;
-import com.recnav.app.models.Services.UsersServices;
+import com.recnav.app.models.Services.*;
 import com.recnav.app.routes.ApiController;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,8 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 @Component
@@ -40,6 +42,9 @@ public class ApiControllerImplementation implements ApiController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private RecNavContentBasedService recNavContentBasedService;
 
 
     public ApiControllerImplementation() {
@@ -173,4 +178,28 @@ public class ApiControllerImplementation implements ApiController {
         }
         return response;
     }
+
+    @Override
+    public Response getNearestCategories(@RequestParam("uuid") String userId) {
+        Gson json ;
+        json = new Gson();
+        HashMap<String , Double> data = new HashMap<>();
+        data.put("rec_coefficient" , 0.7);
+        List<RecNavContentBased> recNavContentBaseds = recNavContentBasedService.get(data, "bigger");
+        List<Double> response = new LinkedList<>();
+        for (RecNavContentBased r : recNavContentBaseds) {
+            //if(r.getUsers().getUserKey() ==  userId){
+                response.add(r.getCoefficient());
+            //}
+        }
+
+        this.response.setType(Response.SUCCESS);
+        this.response.setCode(Response.ALL_GOOD);
+        this.response.setMessageKey("message");
+        this.response.setMessageText(json.toJson(response));
+
+        return this.response;
+    }
+
+
 }
