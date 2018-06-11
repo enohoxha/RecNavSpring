@@ -57,10 +57,13 @@ public class UserDistributionServiceImp implements UserDistributionService{
     @Override
     @Transactional
     public void calculateDistributions(List<UserClicks> userClicks) {
+        this.resetMaps();
+        //todo Bug here data inconsistency (high prio)
+
         ArrayList<Users> users = userDaoImp.getAllUsers();
         ArrayList<ArticleCategories> articleCategories = categoriesDaoImp.getAllCategories();
 
-
+        //todo check for performace optimize to one loop
         for (UserClicks u: userClicks) {
             if(usersClick.containsKey(u.getUser().getId())){
                 usersClick.put(u.getUser().getId(), usersClick.get(u.getUser().getId()) + 1);
@@ -77,6 +80,7 @@ public class UserDistributionServiceImp implements UserDistributionService{
 
 
         for (UserClicks uc: userClicks){
+
             if(userDistributionHashMap.containsKey(uc.getUser().getId() + ":" + uc.getArticle().getCategory().getId())){
                 userDistributionHashMap.get(
                         uc.getUser().getId() + ":" + uc.getArticle().getCategory().getId()
@@ -85,7 +89,15 @@ public class UserDistributionServiceImp implements UserDistributionService{
                 userDistributionHashMap.put(uc.getUser().getId() + ":" + uc.getArticle().getCategory().getId(),
                         new UserDistribution(uc.getArticle().getCategory(), uc.getUser(), 1));
             }
+
         }
+    }
+
+    private void resetMaps() {
+        this.userDistributionHashMap.clear();
+        this.usersClick.clear();
+        this.usersHashMap.clear();
+        this.articleCategoriesHashMap.clear();
     }
 
     @Override

@@ -60,6 +60,7 @@ public class ContentBasedAlgorithm implements AlgorithmContract {
         this.recNavContentBase = new ArrayList();
         contentBasedAlgorithmImplementation.calculateLongTimeDistribution();
         this.contentBasedAlgorithmImplementation.calculateShortTimeDistribution();
+
         System.out.println("Start calculateCoefficients algorithm");
         this.getAllShortTImeDistribution();
         this.calculateCoefficients();
@@ -102,6 +103,12 @@ public class ContentBasedAlgorithm implements AlgorithmContract {
 
                     double value = this.getUserPreference(user, articleCategorie) + VIRTUAL_CLICKS;
                     double similarityCoefficient = (p0catci * value) / NtG;
+
+                    if(similarityCoefficient == 0){
+                        System.out.println();
+                    } else if (similarityCoefficient > 1){
+                        System.out.println();
+                    }
                     recNavContentBased.setCoefficient(similarityCoefficient);
                     this.recNavContentBase.add(recNavContentBased);
                 }
@@ -203,7 +210,7 @@ public class ContentBasedAlgorithm implements AlgorithmContract {
                 returnVal += nt * value;
                 sum += nt;
             }
-            System.out.println("ntTotal: " + sum);
+
         }
 
 

@@ -72,6 +72,7 @@ public class CountryDistributionServiceImp implements CountryDistributionService
     @Override
 
     public void calculateDistributions(List<UserClicks> userClicks){
+        this.resetMaps();
         for (int i = 0; i < userClicks.size(); i++) {
             String bucketKey = userClicks.get(i).getUser().getCountry() + userClicks.get(i).getArticle().getCategory().getName();
             if(!countryDistributions.containsKey(bucketKey)){
@@ -86,6 +87,11 @@ public class CountryDistributionServiceImp implements CountryDistributionService
                 countrys.put(userClicks.get(i).getUser().getCountry(), 1);
             }
         }
+    }
+
+    private void resetMaps() {
+        this.countryDistributions.clear();
+        this.countrys.clear();
     }
 
     @Transactional

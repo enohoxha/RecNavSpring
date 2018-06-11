@@ -27,7 +27,7 @@ public class UsersClickSimulator {
     @Autowired
     UsersServices usersServices;
 
-    @Scheduled(cron = "0 0 * * * *")
+    @Scheduled(cron = "0 * * * * *")
     public void generateDummyClick() {
         ArrayList<Users> usersList = usersServices.getUsers();
         ArrayList<Articles> articles = articlesService.getArticles();

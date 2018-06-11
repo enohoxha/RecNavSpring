@@ -14,7 +14,7 @@ public class RecommendationAlgorithm {
     @Autowired
     ContentBasedAlgorithm contentBasedAlgorithm;
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "15 17 * * * *")
     public void reportCurrentTime() throws ParseException {
         System.out.println("\n\n******************** Starting Algorithm *********************");
         AlgorithmAdapter adapter = new AlgorithmAdapter(contentBasedAlgorithm);
