@@ -1,6 +1,9 @@
 package com.recnav.app.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -9,7 +12,9 @@ import java.util.Date;
         @AttributeOverride( name="created", column = @Column(name="created_at") ),
         @AttributeOverride( name="updated", column = @Column(name="updated_at") )
 })
-public class CountryDistribution extends BaseModels{
+public class CountryDistribution extends BaseModels implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -19,6 +24,7 @@ public class CountryDistribution extends BaseModels{
 
     @ManyToOne
     @JoinColumn(name = "category_id" , nullable = false)
+
     private ArticleCategories category;
 
     @Column

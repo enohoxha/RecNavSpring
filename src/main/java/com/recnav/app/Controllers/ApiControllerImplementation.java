@@ -6,6 +6,7 @@ import com.recnav.app.ResponseModels.Response;
 import com.recnav.app.database.HibernateUtil;
 import com.recnav.app.models.*;
 import com.recnav.app.models.RequestModels.UserClickRequest;
+import com.recnav.app.models.ResponseModels.SimilarityModel;
 import com.recnav.app.models.Services.*;
 import com.recnav.app.routes.ApiController;
 import org.hibernate.Session;
@@ -25,8 +26,8 @@ import java.util.Map;
 
 @Component
 public class ApiControllerImplementation implements ApiController {
-    private Response response;
 
+    private Response response;
 
     @Autowired
     private UsersServices usersServices;
@@ -46,6 +47,8 @@ public class ApiControllerImplementation implements ApiController {
     @Autowired
     private RecNavContentBasedService recNavContentBasedService;
 
+    @Autowired
+    private CountryDistributionService countryDistributionService;
 
     public ApiControllerImplementation() {
         response = new Response();
@@ -181,22 +184,43 @@ public class ApiControllerImplementation implements ApiController {
 
     @Override
     public Response getNearestCategories(@RequestParam("uuid") String userId) {
-        Gson json ;
-        json = new Gson();
+
         HashMap<String , Double> data = new HashMap<>();
-        data.put("rec_coefficient" , 0.7);
-        List<RecNavContentBased> recNavContentBaseds = recNavContentBasedService.get(data, "bigger");
-        List<Double> response = new LinkedList<>();
+
+        List<RecNavContentBased> recNavContentBaseds = recNavContentBasedService.get(data, "top");
+        List<SimilarityModel> response = new LinkedList<>();
+
         for (RecNavContentBased r : recNavContentBaseds) {
-            //if(r.getUsers().getUserKey() ==  userId){
-                response.add(r.getCoefficient());
-            //}
+
+            if(r.getUsers().getUserKey().equals(userId)){
+                SimilarityModel similarityModel = new SimilarityModel();
+                similarityModel.setCategoryId(r.getCategory().getId());
+                similarityModel.setCoefficent(r.getCoefficient());
+                similarityModel.setType("SINGLE_USER_TYPE");
+                similarityModel.setUserId(r.getUsers().getId());
+                response.add(similarityModel);
+            }
         }
 
         this.response.setType(Response.SUCCESS);
         this.response.setCode(Response.ALL_GOOD);
         this.response.setMessageKey("message");
-        this.response.setMessageText(json.toJson(response));
+        this.response.setMessageObject(response);
+
+        return this.response;
+    }
+
+    @Override
+    public Response getCountryDistributions() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        List<CountryDistribution> countryDistributions = this.countryDistributionService.get(hashMap, "");
+        for (CountryDistribution countryDistribution: countryDistributions) {
+
+        }
+        this.response.setType(Response.SUCCESS);
+        this.response.setCode(Response.ALL_GOOD);
+        this.response.setMessageKey("message");
+        this.response.setMessageObject(countryDistributions);
 
         return this.response;
     }

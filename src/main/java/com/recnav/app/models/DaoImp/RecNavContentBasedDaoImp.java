@@ -36,7 +36,10 @@ public class RecNavContentBasedDaoImp implements RecNavContentBasedDao{
                 hql += value + " > " + values.get(value);
                 hql += " and ";
             }
-        } else {
+        } else if(type.equals("top")){
+            hql = "from RecNavContentBased order By rec_coefficient desc and";
+        }
+        else {
             for (Object value : values.keySet()) {
                 hql += value + " = " + values.get(value);
                 hql += " and ";

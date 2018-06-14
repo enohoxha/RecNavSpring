@@ -36,4 +36,10 @@ public interface ApiController {
     public Response getNearestCategories(@RequestParam("uuid") String userId);
 
 
+    @RequestMapping(method = RequestMethod.POST,
+            value = "/api/getCountryDistributions" ,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response getCountryDistributions();
+
+
 }

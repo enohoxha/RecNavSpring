@@ -1,5 +1,6 @@
 package com.recnav.app.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -21,12 +22,14 @@ public class ArticleCategories extends BaseModels {
     @NaturalId
     private String name;
 
+    @JsonIgnore
     @OneToMany(
             targetEntity = Articles.class,
             mappedBy = "category",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+
     private Set<Articles> articles = new HashSet<Articles>(0);
 
 
