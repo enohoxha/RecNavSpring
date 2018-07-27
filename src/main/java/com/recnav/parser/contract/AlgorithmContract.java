@@ -5,5 +5,5 @@ import org.springframework.stereotype.Controller;
 import java.text.ParseException;
 
 public interface AlgorithmContract {
-    public void startProcess() throws ParseException;
+    public void startProcess() throws Exception;
 }

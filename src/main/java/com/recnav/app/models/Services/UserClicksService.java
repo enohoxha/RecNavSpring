@@ -13,4 +13,5 @@ public interface UserClicksService {
 
     List<UserClicks> getUserClicksDateRange(Date start, Date  end);
 
+
 }

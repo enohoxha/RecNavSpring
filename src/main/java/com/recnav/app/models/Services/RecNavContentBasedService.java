@@ -10,7 +10,7 @@ public interface RecNavContentBasedService {
 
     public void save(RecNavContentBased recNavContentBasedDao);
 
-    public List get(HashMap values, String type);
+    public List<RecNavContentBased> get(HashMap values, String type);
 
     void saveAll(ArrayList<RecNavContentBased> recNavContentBaseds);
 }

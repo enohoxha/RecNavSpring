@@ -29,6 +29,7 @@ public class UsersClickSimulator {
 
     @Scheduled(cron = "0 * * * * *")
     public void generateDummyClick() {
+        System.out.println("Cron Task :: Execution Time - {}"+Thread.currentThread().getName());
         ArrayList<Users> usersList = usersServices.getUsers();
         ArrayList<Articles> articles = articlesService.getArticles();
         if(usersList.size() > 0){

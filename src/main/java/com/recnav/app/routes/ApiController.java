@@ -41,5 +41,10 @@ public interface ApiController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
     public Response getCountryDistributions();
 
+    @RequestMapping(method = RequestMethod.POST,
+            value = "/api/getRecommendations" ,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response getRecommendations(@RequestParam("uuid") String userId);
+
 
 }

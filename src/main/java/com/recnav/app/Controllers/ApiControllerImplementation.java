@@ -18,10 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Component
@@ -49,6 +46,10 @@ public class ApiControllerImplementation implements ApiController {
 
     @Autowired
     private CountryDistributionService countryDistributionService;
+
+    @Autowired
+    private CollaborativeFilteringService collaborativeFilteringService;
+
 
     public ApiControllerImplementation() {
         response = new Response();
@@ -214,13 +215,35 @@ public class ApiControllerImplementation implements ApiController {
     public Response getCountryDistributions() {
         HashMap<String, String> hashMap = new HashMap<>();
         List<CountryDistribution> countryDistributions = this.countryDistributionService.get(hashMap, "");
-        for (CountryDistribution countryDistribution: countryDistributions) {
 
-        }
         this.response.setType(Response.SUCCESS);
         this.response.setCode(Response.ALL_GOOD);
         this.response.setMessageKey("message");
         this.response.setMessageObject(countryDistributions);
+
+        return this.response;
+    }
+
+    @Override
+    public Response getRecommendations(@RequestParam("uuid") String userId) {
+        ArrayList rec = new ArrayList();
+        HashMap<String , Double> data = new HashMap<>();
+        Users u = usersServices.getUserByKey(userId);
+        if (u == null){
+            this.response.setType(Response.SUCCESS);
+            this.response.setCode(Response.ALL_GOOD);
+            this.response.setMessageKey("message");
+            this.response.setMessageObject(null);
+        }
+        data.put("user_id", (double) u.getId());
+        List <CollaborativeFiltering> recList = collaborativeFilteringService.get(data, "get");
+        for (CollaborativeFiltering c: recList) {
+            rec.add(c.getCoefficient());
+        }
+        this.response.setType(Response.SUCCESS);
+        this.response.setCode(Response.ALL_GOOD);
+        this.response.setMessageKey("message");
+        this.response.setMessageObject(rec);
 
         return this.response;
     }

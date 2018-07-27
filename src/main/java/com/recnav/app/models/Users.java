@@ -42,9 +42,7 @@ public class Users extends BaseModels {
 
     @OneToMany(
             targetEntity = UserClicks.class,
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            mappedBy = "user"
     )
     private Set<UserClicks> clicks = new HashSet<UserClicks>(0);
 
