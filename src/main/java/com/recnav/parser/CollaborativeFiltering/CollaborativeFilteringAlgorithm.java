@@ -107,11 +107,15 @@ public class CollaborativeFilteringAlgorithm implements AlgorithmContract {
                 for (Articles a: articles) {
                     contentBasedCoefficient = this.getContentBasedCoefficient(u.getId(), a.getCategory().getId());
                     coefficient = this.calculateCoefficient(u, a);
-                    CollaborativeFiltering collaborativeFiltering = new CollaborativeFiltering();
-                    collaborativeFiltering.setUsers(u);
-                    collaborativeFiltering.setArticle(a);
-                    collaborativeFiltering.setCoefficient(contentBasedCoefficient * coefficient);
-                    collaborativeFilterings.add(collaborativeFiltering);
+                    double value = contentBasedCoefficient * coefficient;
+                    if(value > 0){
+                        CollaborativeFiltering collaborativeFiltering = new CollaborativeFiltering();
+                        collaborativeFiltering.setUsers(u);
+                        collaborativeFiltering.setArticle(a);
+                        collaborativeFiltering.setCoefficient(value);
+                        collaborativeFilterings.add(collaborativeFiltering);
+                    }
+
                 }
             }
 

@@ -58,14 +58,14 @@ public class CollaborativeFilteringDaoImp implements CollaborativeFilteringDao {
         session.createQuery("delete from CollaborativeFiltering").executeUpdate();
         int i = 1;
         for (CollaborativeFiltering r: collaborativeFiltering) {
-            if(r.getCoefficient() > 0){
+
                 session.save(r);
-                if( i % 250 == 0 ) {
+                if( i % 25000 == 0 ) {
                     session.flush();
                     session.clear();
                 }
                 i++;
-            }
+
         }
     }
 }
