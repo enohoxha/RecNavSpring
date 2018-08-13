@@ -28,7 +28,7 @@ public class RecommendationAlgorithm {
         System.out.println("End of algorithm in : " + (end - start));
     }
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 0/30 * * * *")
     public void startCollaborativeFiltering() throws Exception {
        AlgorithmAdapter adapter = new AlgorithmAdapter(collaborativeFilteringAlgorithm);
 

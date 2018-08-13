@@ -104,18 +104,12 @@ public class ContentBasedAlgorithm implements AlgorithmContract {
                     double value = this.getUserPreference(user, articleCategorie) + VIRTUAL_CLICKS;
                     double similarityCoefficient = (p0catci * value) / NtG;
 
-                    if(similarityCoefficient == 0){
-                        System.out.println();
-                    } else if (similarityCoefficient > 1){
-                        System.out.println();
-                    }
                     recNavContentBased.setCoefficient(similarityCoefficient);
                     this.recNavContentBase.add(recNavContentBased);
                 }
 
             }
         }
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         recNavContentBasedService.saveAll(this.recNavContentBase);
 
 
@@ -194,7 +188,6 @@ public class ContentBasedAlgorithm implements AlgorithmContract {
         if(userDistributions != null){
             int sum = 0;
             for (int i = 0; i < userDistributions.size(); i++){
-
                 double nt = this.getTotalClick(user, userDistributions.get(i).getFrom_date(), userDistributions.get(i).getToo_date());
                 double ptcatciclick = userDistributions.get(i).getDistribution();
                 double ptcatci = this.getTotalDistribution(userDistributions.get(i).getUser(), userDistributions.get(i).getCategory().getName(), userDistributions.get(i).getFrom_date(), userDistributions.get(i).getToo_date());
@@ -212,8 +205,6 @@ public class ContentBasedAlgorithm implements AlgorithmContract {
             }
 
         }
-
-
         return returnVal;
 
     }

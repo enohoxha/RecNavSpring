@@ -12,4 +12,6 @@ public interface ArticlesDao {
     public void saveArticle(Articles articles);
 
     ArrayList<Articles> getArticles();
+
+    public ArrayList<Articles> getArticlesByCategory(int categoryId);
 }

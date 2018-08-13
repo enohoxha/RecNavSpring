@@ -35,5 +35,11 @@ public class ArticlesServiceImp implements ArticlesService {
         return articlesDao.getArticles();
     }
 
+    @Transactional
+    @Override
+    public ArrayList<Articles> getArticlesByCategory(int categoryId) {
+        return articlesDao.getArticlesByCategory(categoryId);
+    }
+
 
 }

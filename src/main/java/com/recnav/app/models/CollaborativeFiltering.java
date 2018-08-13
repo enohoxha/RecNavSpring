@@ -41,7 +41,7 @@ public class CollaborativeFiltering extends BaseModels {
         this.users = users;
     }
 
-    public Articles getCategory() {
+    public Articles getArticles() {
         return articles;
     }
 

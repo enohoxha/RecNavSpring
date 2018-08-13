@@ -13,4 +13,6 @@ public interface ArticlesService {
     public void saveArticle(Articles articles);
 
     ArrayList<Articles> getArticles();
+
+    public ArrayList<Articles> getArticlesByCategory(int categoryId);
 }

@@ -9,6 +9,7 @@ import com.recnav.app.models.RequestModels.UserClickRequest;
 import com.recnav.app.models.ResponseModels.SimilarityModel;
 import com.recnav.app.models.Services.*;
 import com.recnav.app.routes.ApiController;
+import com.recnav.parser.RecommendationAlgorithm;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -50,6 +51,8 @@ public class ApiControllerImplementation implements ApiController {
     @Autowired
     private CollaborativeFilteringService collaborativeFilteringService;
 
+    @Autowired
+    private RecommendationAlgorithm recommendationAlgorithm;
 
     public ApiControllerImplementation() {
         response = new Response();
@@ -225,26 +228,111 @@ public class ApiControllerImplementation implements ApiController {
     }
 
     @Override
-    public Response getRecommendations(@RequestParam("uuid") String userId) {
+    public Response getRecommendations(@RequestParam("uuid") String userId)
+    {
         ArrayList rec = new ArrayList();
         HashMap<String , Double> data = new HashMap<>();
         Users u = usersServices.getUserByKey(userId);
+        // if user is not registerd no rec found
         if (u == null){
             this.response.setType(Response.SUCCESS);
             this.response.setCode(Response.ALL_GOOD);
             this.response.setMessageKey("message");
             this.response.setMessageObject(null);
+            return response;
         }
         data.put("user_id", (double) u.getId());
-        List <CollaborativeFiltering> recList = collaborativeFilteringService.get(data, "get");
-        for (CollaborativeFiltering c: recList) {
-            rec.add(c.getCoefficient());
+        List <CollaborativeFiltering> recList = collaborativeFilteringService.get(data, "rec");
+
+        // if user dont exist in clusters of cf
+        if (recList == null){
+
+            List<RecNavContentBased> recNavContentBaseds = recNavContentBasedService.get(data, "rec");
+            List<Articles> articles = null;
+
+            // if user don't exist in contentBased
+            if (recNavContentBaseds == null){
+
+                HashMap<String , String> data2 = new HashMap<>();
+                data2.put("country", u.getCountry());
+                List <CountryDistribution> countryDistributions = countryDistributionService.get(data2, "rec");
+                double maxValue = Integer.MIN_VALUE;
+                int maxId = Integer.MIN_VALUE;
+                int i = 1;
+
+                for (CountryDistribution c: countryDistributions) {
+                    if (i == 5){
+                        break;
+                    }
+                    if(maxValue < c.getDistribution()){
+                        maxValue = c.getDistribution();
+                        maxId = c.getCategory().getId();
+                    }
+                    i++;
+                }
+                articles = articlesService.getArticlesByCategory(maxId);
+            } else {
+                articles = articlesService.getArticlesByCategory(recNavContentBaseds.get(0).getCategory().getId());
+            }
+
+            for (Articles a: articles) {
+                rec.add(a.getArticleId());
+            }
+        } else{
+            for (CollaborativeFiltering c: recList) {
+                if (rec.size() > 20){
+                    break;
+                }
+                rec.add(c.getArticles().getArticleId());
+            }
         }
+
         this.response.setType(Response.SUCCESS);
         this.response.setCode(Response.ALL_GOOD);
         this.response.setMessageKey("message");
         this.response.setMessageObject(rec);
 
+        return this.response;
+    }
+
+    @Override
+    public Response runCollaborativeFiltering()
+    {
+        try {
+            recommendationAlgorithm.startCollaborativeFiltering();
+            this.response.setType(Response.SUCCESS);
+            this.response.setCode(Response.ALL_GOOD);
+            this.response.setMessageKey("message");
+            this.response.setMessageText("Success");
+
+        } catch (Exception e) {
+            this.response.setType(Response.SUCCESS);
+            this.response.setCode(Response.ALL_GOOD);
+            this.response.setMessageKey("message");
+            this.response.setMessageText(e.getMessage());
+            e.printStackTrace();
+        }
+        return this.response;
+    }
+
+
+    @Override
+    public Response runContentBased()
+    {
+        try {
+            recommendationAlgorithm.reportCurrentTime();
+            this.response.setType(Response.SUCCESS);
+            this.response.setCode(Response.ALL_GOOD);
+            this.response.setMessageKey("message");
+            this.response.setMessageText("Success");
+
+        } catch (Exception e) {
+            this.response.setType(Response.SUCCESS);
+            this.response.setCode(Response.ALL_GOOD);
+            this.response.setMessageKey("message");
+            this.response.setMessageText(e.getMessage());
+            e.printStackTrace();
+        }
         return this.response;
     }
 

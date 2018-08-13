@@ -72,6 +72,9 @@ public class CountryDistributionDaoImp implements CountryDistributionDao {
             hql += " and ";
         }
         hql = hql.substring(0, hql.length() - 4);
+        if(type == "rec"){
+            hql += "ORDER BY from_date DESC";
+        }
         List results = session.createQuery( hql).list();
         if(results.isEmpty())
             return null;

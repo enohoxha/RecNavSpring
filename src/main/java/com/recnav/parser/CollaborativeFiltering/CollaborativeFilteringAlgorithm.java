@@ -73,7 +73,7 @@ public class CollaborativeFilteringAlgorithm implements AlgorithmContract {
             clicks.clear();
 
         }
-        KMens kMens = new KMens(8 , usersSet);
+        KMens kMens = new KMens(6 , usersSet);
         clusterModels = kMens.startClusteringData();
 
         this.calculateRecommendations(clusterModels, users);
@@ -155,7 +155,7 @@ public class CollaborativeFilteringAlgorithm implements AlgorithmContract {
                 for (Map.Entry<Integer, UserModel> entry : c.getUsers().entrySet()) {
                     int[] clicks = entry.getValue().getClicks();
                     for (int i = 0; i < clicks.length; i++){
-                        if(clicks[i] == a.getArticleId()){
+                        if(clicks[i] == a.getId()){
                             sum += 1;
                         }
                     }

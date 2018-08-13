@@ -36,6 +36,8 @@ public class CollaborativeFilteringDaoImp implements CollaborativeFilteringDao {
             }
         } else if(type.equals("top")){
             hql = "from CollaborativeFiltering order By coefficient desc and";
+        }  else if(type.equals("rec")){
+            hql = "from CollaborativeFiltering where user_id = " + values.get("user_id") + " order By coefficient desc and";
         }
         else {
 
@@ -58,14 +60,12 @@ public class CollaborativeFilteringDaoImp implements CollaborativeFilteringDao {
         session.createQuery("delete from CollaborativeFiltering").executeUpdate();
         int i = 1;
         for (CollaborativeFiltering r: collaborativeFiltering) {
-
                 session.save(r);
                 if( i % 25000 == 0 ) {
                     session.flush();
                     session.clear();
                 }
                 i++;
-
         }
     }
 }

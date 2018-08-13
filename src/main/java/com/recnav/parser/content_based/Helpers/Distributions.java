@@ -98,7 +98,7 @@ public class Distributions {
             frame.add(Calendar.DATE, timePeriod);
             List<UserClicks> userClicks = userClicksService.getUserClicksDateRange(date, frame.getTime());
             clickDebug += userClicks.size();
-            System.out.println("Calculate " + type + " between days: " + date + " - " + frame.getTime());
+
             if (type == LONG_TIME_USER_DISTRIBUTION){
                 if(userClicks.size() > 0) {
                     userDistributionService.calculateDistributions(userClicks);
@@ -113,8 +113,6 @@ public class Distributions {
             }
 
         }
-
-        System.out.println("Click debug for " + type + ": " + clickDebug);
 
     }
 }

@@ -39,4 +39,13 @@ public class ArticlesDaoImp implements ArticlesDao {
                 .list();
         return articles;
     }
+
+    @Override
+    public ArrayList<Articles> getArticlesByCategory(int categoryId)
+    {
+        Session session = sessionFactory.getCurrentSession();
+        ArrayList<Articles> articles = (ArrayList<Articles>) session.createQuery("from Articles where category_id = " + categoryId).setMaxResults(20)
+                .list();
+        return articles;
+    }
 }

@@ -107,8 +107,9 @@ public class KMens {
         Random random = new Random();
         double centroidDistance = 0;
         boolean loop = true;
+        int attempt = 0;
         // init clusters
-        while (loop){
+        while (loop && attempt < 10){
             loop = false;
             for (int i= 0; i < numberOfClassifiers; i++){
                 clusterModels[i] = new ClusterModel(i);
@@ -123,6 +124,7 @@ public class KMens {
                 for (int j = i + 1; j < numberOfClassifiers; j++){
                     if(clusterModels[i].minDistanceFromCenteroid(clusterModels[i].getCentroid().getUserId(), clusterModels[j].getCentroid().getClicks()) != 1){
                         loop = true;
+                        attempt++;
                     }
                 }
             }

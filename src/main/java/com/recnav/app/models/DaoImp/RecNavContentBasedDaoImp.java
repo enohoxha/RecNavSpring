@@ -38,6 +38,8 @@ public class RecNavContentBasedDaoImp implements RecNavContentBasedDao{
             }
         } else if(type.equals("top")){
             hql = "from RecNavContentBased order By rec_coefficient desc and";
+        } else if(type.equals("rec")){
+            hql = "from RecNavContentBased where user_id = " + values.get("user_id") + " order By rec_coefficient desc and";
         }
         else {
             for (Object value : values.keySet()) {
