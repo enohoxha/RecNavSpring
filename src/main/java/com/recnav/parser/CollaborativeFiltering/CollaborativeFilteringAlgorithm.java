@@ -73,7 +73,7 @@ public class CollaborativeFilteringAlgorithm implements AlgorithmContract {
             clicks.clear();
 
         }
-        KMens kMens = new KMens(6 , usersSet);
+        KMens kMens = new KMens(24 , usersSet);
         clusterModels = kMens.startClusteringData();
 
         this.calculateRecommendations(clusterModels, users);

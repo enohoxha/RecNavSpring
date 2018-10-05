@@ -71,7 +71,7 @@ public class KMens {
             }
 
         }
-
+        System.out.println("Clusters Loops: "+ loops);
         return clusters;
     }
 
@@ -108,6 +108,7 @@ public class KMens {
         double centroidDistance = 0;
         boolean loop = true;
         int attempt = 0;
+        float min = 1;
         // init clusters
         while (loop && attempt < 10){
             loop = false;
@@ -120,10 +121,12 @@ public class KMens {
                 clusterModels[i].setCentroid(userModel);
             }
 
+            // todo fix starting point asap
             for (int i= 0; i < numberOfClassifiers - 1; i++){
                 for (int j = i + 1; j < numberOfClassifiers; j++){
-                    if(clusterModels[i].minDistanceFromCenteroid(clusterModels[i].getCentroid().getUserId(), clusterModels[j].getCentroid().getClicks()) != 1){
+                    if(clusterModels[i].minDistanceFromCenteroid(clusterModels[i].getCentroid().getUserId(), clusterModels[j].getCentroid().getClicks()) <= min){
                         loop = true;
+                        min = clusterModels[i].minDistanceFromCenteroid(clusterModels[i].getCentroid().getUserId(), clusterModels[j].getCentroid().getClicks());
                         attempt++;
                     }
                 }

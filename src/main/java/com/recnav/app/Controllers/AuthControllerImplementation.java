@@ -35,7 +35,7 @@ public class AuthControllerImplementation implements AuthController{
     public Response login(String appName, String secretKey) {
         Session session= sessionFactory.getCurrentSession();
         String compactJws = "Login Failed";
-        calendar.add(Calendar.SECOND, ApplicationProperties.EXPIRATION_TIME);
+        calendar.add(Calendar.YEAR, ApplicationProperties.EXPIRATION_TIME);
 
         try{
 
