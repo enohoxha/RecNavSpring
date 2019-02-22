@@ -2,7 +2,9 @@ package com.recnav.app.models;
 
 import javax.persistence.*;
 
-@Entity(name = "user_clicks")
+
+@Entity
+@Table(name = "user_clicks")
 @AttributeOverrides({
         @AttributeOverride( name="created", column = @Column(name="created_at") ),
         @AttributeOverride( name="updated", column = @Column(name="updated_at") )
@@ -43,5 +45,20 @@ public class UserClicks extends BaseModels{
 
     public void setArticle(Articles article) {
         this.article = article;
+    }
+
+    public boolean isSameRegion(UserClicks userClicks){
+
+        if(this.user.getCountry().equals(userClicks.getUser().getCountry())){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isSameCategory(UserClicks userClicks){
+        if(this.article.getCategory().getName().equals(userClicks.getArticle().getCategory().getName() )){
+            return  true;
+        }
+        return false;
     }
 }

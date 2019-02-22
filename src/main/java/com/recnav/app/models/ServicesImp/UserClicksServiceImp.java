@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
 
 public class UserClicksServiceImp implements UserClicksService {
+
     @Autowired
     UserClicksDao userClicksDao;
 
@@ -26,5 +28,11 @@ public class UserClicksServiceImp implements UserClicksService {
     @Override
     public List<UserClicks> getUserClicks() {
         return userClicksDao.getUserClicks();
+    }
+
+    @Transactional
+    @Override
+    public List<UserClicks> getUserClicksDateRange(Date start, Date end) {
+        return userClicksDao.getUserClicksDateRange(start, end);
     }
 }

@@ -2,6 +2,7 @@ package com.recnav.app.models.Services;
 
 import com.recnav.app.models.Users;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface UsersServices {
@@ -18,4 +19,5 @@ public interface UsersServices {
 
     public Users getUserByKey(String key);
 
+    public ArrayList<Users> getUsers();
 }

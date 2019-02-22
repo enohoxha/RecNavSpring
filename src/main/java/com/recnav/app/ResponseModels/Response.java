@@ -1,8 +1,10 @@
 package com.recnav.app.ResponseModels;
 
 import com.google.gson.Gson;
+import com.recnav.app.models.ResponseModels.SimilarityModel;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Response {
@@ -19,17 +21,22 @@ public class Response {
     private static  String MESSAGE_KEY = "message";
 
 
-    private Map<String, String> message;
-
+    private Map<String, Object> message;
     private String type = null;
     private String code = null;
     private String messageKey = null;
     private String messageText = null;
     private Gson json ;
 
+    public List getMessageObject() {
+        return messageObject;
+    }
+
+    private List messageObject;
+
     public Response() {
         json = new Gson();
-        message = new HashMap<String, String>();
+        message = new HashMap<String, Object>();
     }
 
     /**
@@ -68,6 +75,7 @@ public class Response {
      * get message key
      * @return
      */
+
     public String getMessageKey() {
         return messageKey;
     }
@@ -96,6 +104,7 @@ public class Response {
             throw new NullPointerException("Code can not be null");
         }
         this.message.put(TYPE_KEY, this.getType());
+        this.message.put("data", this.getMessageObject());
         this.message.put(CODE_KEY, this.getCode());
 
         if(this.getMessageKey() != null && this.getMessageText() != null){
@@ -103,6 +112,7 @@ public class Response {
         }
 
     }
+
 
     /**
      * Return json response from object
@@ -114,5 +124,11 @@ public class Response {
      */
     public  String responseJSON() {
         return this.json.toJson(this.message);
+    }
+
+
+
+    public void setMessageObject(List messageObject) {
+        this.messageObject = messageObject;
     }
 }

@@ -7,6 +7,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+
 @Repository
 public class CategoriesDaoImp implements CategoriesDao {
 
@@ -30,5 +32,13 @@ public class CategoriesDaoImp implements CategoriesDao {
         Session session = sessionFactory.getCurrentSession();
         session.persist(articleCategories);
         return articleCategories;
+    }
+
+    @Override
+    public ArrayList<ArticleCategories> getAllCategories() {
+        Session session = sessionFactory.getCurrentSession();
+        ArrayList<ArticleCategories> users = (ArrayList<ArticleCategories>) session.createQuery("from ArticleCategories")
+                .list();
+        return users;
     }
 }

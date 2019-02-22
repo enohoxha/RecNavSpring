@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+
 @Service
 public class ArticlesServiceImp implements ArticlesService {
 
@@ -25,6 +27,18 @@ public class ArticlesServiceImp implements ArticlesService {
     @Override
     public void saveArticle(Articles articles) {
         articlesDao.saveArticle(articles);
+    }
+
+    @Transactional
+    @Override
+    public ArrayList<Articles> getArticles() {
+        return articlesDao.getArticles();
+    }
+
+    @Transactional
+    @Override
+    public ArrayList<Articles> getArticlesByCategory(int categoryId) {
+        return articlesDao.getArticlesByCategory(categoryId);
     }
 
 

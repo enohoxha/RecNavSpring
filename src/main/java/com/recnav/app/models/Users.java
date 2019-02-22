@@ -7,7 +7,8 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name = "users")
+@Entity
+@Table(name = "users")
 
 @AttributeOverrides({
         @AttributeOverride( name="created", column = @Column(name="created_at") ),
@@ -41,9 +42,7 @@ public class Users extends BaseModels {
 
     @OneToMany(
             targetEntity = UserClicks.class,
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            mappedBy = "user"
     )
     private Set<UserClicks> clicks = new HashSet<UserClicks>(0);
 

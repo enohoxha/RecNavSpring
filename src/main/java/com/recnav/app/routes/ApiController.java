@@ -30,5 +30,30 @@ public interface ApiController {
     public Response recordClick(UserClickRequest users);
 
 
+    @RequestMapping(method = RequestMethod.POST,
+            value = "/api/generateSimilarItems" ,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response getNearestCategories(@RequestParam("uuid") String userId);
+
+
+    @RequestMapping(method = RequestMethod.POST,
+            value = "/api/getCountryDistributions" ,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response getCountryDistributions();
+
+    @RequestMapping(method = RequestMethod.POST,
+            value = "/api/getRecommendations" ,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response getRecommendations(@RequestParam("uuid") String userId);
+
+    @RequestMapping(method = RequestMethod.GET,
+            value = "/api/runCollaborativeFiltering" ,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response runCollaborativeFiltering();
+
+    @RequestMapping(method = RequestMethod.GET,
+            value = "/api/runContentBased" ,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response runContentBased();
 
 }
